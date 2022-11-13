@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { Track } from 'src/interfaces/Track';
+import { TrackEntity } from 'src/interfaces/Track';
 import { TrackService } from 'src/services/tracks/track.service';
 
 @Controller('track')
@@ -11,31 +11,29 @@ export class TrackController {
 
  
   @Get('/get/:id')
-  getTrack(@Param('id') id: number): Track {
+  getTrack(@Param('id') id: string): TrackEntity {
     return this.trackService.getById(id);
   }
 
   @Post('/add')
-  addTrack(@Body() track: Track) {
+  addTrack(@Body() track: TrackEntity) {
      this.trackService.add(track);
   }
 
   @Delete('/delete/:id')
-  deleteTrack(@Param('id') id: number) {
+  deleteTrack(@Param('id') id: string) {
     console.log("deleting: #{id}")
      this.trackService.delete(id);
   }
 
   @Get('/get')
-  getTracks(): Track[] {
+  getTracks(): TrackEntity[] {
     return this.trackService.getAll();
   }
 
   @Put('update/:id')
-  updateTrack(@Param('id') id:number, @Query('field') field: string, @Query('value') value){
-    console.log(field)
-    console.log(value)
-    this.trackService.updateTrack(id,field,value)
+  updateTrack(@Param('id') id:number, @Body() track: TrackEntity){
+    this.trackService.update(track)
   }
 }
 

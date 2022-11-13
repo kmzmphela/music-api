@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { Playlist } from 'src/interfaces/Playlist';
-import { Track } from 'src/interfaces/Track';
+import { PlaylistEntity } from 'src/interfaces/Playlist';
+import { TrackEntity } from 'src/interfaces/Track';
 import { PlayListService } from 'src/services/tracks/playlist.service';
 
 @Controller('playlist')
@@ -10,30 +10,27 @@ export class PlaylistController {
 
  
   @Get('/get/:id')
-  getPlaylist(@Param('id') id: number): Playlist {
+  getPlaylist(@Param('id') id: string): PlaylistEntity {
     return this.playlistService.getById(id);
   }
 
   @Post('/add')
-  addPlaylist(@Body() playlist: Playlist) {
+  addPlaylist(@Body() playlist: PlaylistEntity) {
      this.playlistService.add(playlist);
   }
 
   @Delete('/delete/:id')
-  deletePlaylist(@Param('id') id: number) {
+  deletePlaylist(@Param('id') id: string) {
      this.playlistService.delete(id);
   }
 
   @Get('/get')
-  getPlaylists(): Playlist[] {
+  getPlaylists(): PlaylistEntity[] {
     return this.playlistService.getAll();
   }
 
   @Put('update/:id')
-  updatPlaylist(@Param('id') id:number, @Query('field') field: string, @Query('value') value, @Body() body){
-    console.log(field)
-    console.log(value)
-    console.table(body)
-    this.playlistService.updatePlaylist(id,field,value,body)
+  updatPlaylist( @Body() body){
+    this.playlistService.update(body)
   }
 }

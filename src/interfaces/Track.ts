@@ -1,5 +1,6 @@
-export interface Track{
-    id: number;
+import { InMemoryDBEntity } from "@nestjs-addons/in-memory-db";
+
+export interface TrackEntity extends InMemoryDBEntity{
     name: string;
     album: string;
     artist: string;
